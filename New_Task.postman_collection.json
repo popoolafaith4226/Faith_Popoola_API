@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "3e2c2c9c-0dca-4223-af86-99eb3b926f88",
+		"name": "New_Task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29705819",
+		"_collection_link": "https://gold-firefly-392762.postman.co/workspace/TraderAPP~681c84ec-8a95-4b07-9803-f754fe153a02/collection/29705819-3e2c2c9c-0dca-4223-af86-99eb3b926f88?action=share&source=collection_link&creator=29705819"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let currentTime = Date.now();\r",
+							"let startTime = pm.globals.get(\"requestStartTime\");\r",
+							"let waitTime = 2000; // 2 seconds\r",
+							"if (currentTime - startTime < waitTime) {\r",
+							"    setTimeout(() => {}, waitTime - (currentTime - startTime));\r",
+							"}\r",
+							"pm.globals.set(\"requestStartTime\", Date.now());\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"// Validate response structure\r",
+							"pm.test(\"Response status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains status, data, and id fields\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property(\"status\", \"success\");\r",
+							"    pm.expect(response.data).to.have.property(\"id\").that.is.a(\"number\");\r",
+							"    pm.expect(response.data).to.have.property(\"status\", \"success\");\r",
+							"    pm.expect(response.data).to.have.property(\"data\").that.is.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "humans_21909=1",
+						"type": "text"
+					},
+					{
+						"key": "Retry-After",
+						"value": "120",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"status\": \"success\",\r\n\"data\": {\r\n\"name\": \"Sample Name\",\r\n\"salary\": \"1230999\",\r\n\"age\": \"52\",\r\n\"id\": 25\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://dummy.restapiexample.com/api/v1/create",
+					"protocol": "http",
+					"host": [
+						"dummy",
+						"restapiexample",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AllEmployee",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains status and data\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property(\"status\", \"success\");\r",
+							"    pm.expect(response).to.have.property(\"data\").that.is.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"All employees have required fields\", function () {\r",
+							"    const employees = pm.response.json().data;\r",
+							"    employees.forEach(employee => {\r",
+							"        pm.expect(employee).to.have.property(\"id\").that.is.a(\"number\");\r",
+							"        pm.expect(employee).to.have.property(\"employee_name\").that.is.a(\"string\");\r",
+							"        pm.expect(employee).to.have.property(\"employee_salary\").that.is.a(\"number\");\r",
+							"        pm.expect(employee).to.have.property(\"employee_age\").that.is.a(\"number\");\r",
+							"        pm.expect(employee).to.have.property(\"profile_image\").that.is.a(\"string\");\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "humans_21909=1",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Retry-After",
+						"value": "120",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://dummy.restapiexample.com/api/v1/employees",
+					"protocol": "http",
+					"host": [
+						"dummy",
+						"restapiexample",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OneEmployee",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let currentTime = Date.now();\r",
+							"let startTime = pm.globals.get(\"requestStartTime\");\r",
+							"let waitTime = 2000; // 2 seconds\r",
+							"if (currentTime - startTime < waitTime) {\r",
+							"    setTimeout(() => {}, waitTime - (currentTime - startTime));\r",
+							"}\r",
+							"pm.globals.set(\"requestStartTime\", Date.now());\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains status, data, and message\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property(\"status\", \"success\");\r",
+							"    pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+							"    pm.expect(response).to.have.property(\"data\").that.is.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Employee details match required fields\", function () {\r",
+							"    const employee = pm.response.json().data;\r",
+							"    pm.expect(employee).to.have.property(\"id\").that.is.a(\"number\");\r",
+							"    pm.expect(employee).to.have.property(\"employee_name\").that.is.a(\"string\");\r",
+							"    pm.expect(employee).to.have.property(\"employee_salary\").that.is.a(\"number\");\r",
+							"    pm.expect(employee).to.have.property(\"employee_age\").that.is.a(\"number\");\r",
+							"    pm.expect(employee).to.have.property(\"profile_image\").that.is.a(\"string\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "humans_21909=1",
+						"type": "text"
+					},
+					{
+						"key": "Retry-After",
+						"value": "120",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://dummy.restapiexample.com/api/v1/employee/5",
+					"protocol": "http",
+					"host": [
+						"dummy",
+						"restapiexample",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"5"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
